@@ -1,0 +1,13 @@
+* Weather Station
+
+Status
+: git status
+
+Add all files
+: git add .
+
+Commit changes
+: git commit -am 'initial commit'
+
+Clone project into your Sketchbook
+: git clone https://github.com/map7/weather_station.git
