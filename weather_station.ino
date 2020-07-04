@@ -24,7 +24,7 @@ dht DHT;
 void setup(void) {
   u8g2.begin();
   Serial.begin(9600);
-  DHT.read11(DHT11_PIN); // Read temperature
+  DHT.read11(DHT11_PIN); // Read DHT sensor values for temperature & humidity
 }
 
 char* temperature(){
@@ -34,15 +34,17 @@ char* temperature(){
   return temp_str;
 }
 
+char* humidity(){
+  int humidity_int = DHT.humidity;
+  static char humidity_str[3];
+  dtostrf(humidity_int, 2, 0, humidity_str);
+  return humidity_str;
+}
+
 void display() {
 }
 
 void loop(void) {
-
-  int tempsh = DHT.humidity;
-  char temph_reading_str[3];
-
-  dtostrf(tempsh, 2, 0, temph_reading_str); // 
 
   /* Display */
   u8g2.clearBuffer();					// clear the internal memory
@@ -50,7 +52,7 @@ void loop(void) {
   u8g2.drawStr(0, 20, temperature());  // write Temp to the internal memory
   u8g2.setFont(u8g2_font_unifont_t_symbols);
   u8g2.drawUTF8(30,20,"℃");
-  u8g2.drawStr(0, 40, temph_reading_str);  // write Humidity to the internal memory
+  u8g2.drawStr(0, 40, humidity());  // write Humidity to the internal memory
   u8g2.drawStr(20, 40, "% Humidity");
   u8g2.sendBuffer();                    // transfer internal memory to the display
   delay(1000);
