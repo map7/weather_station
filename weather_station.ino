@@ -54,9 +54,9 @@ void display() {
 }
 
 void console_output() {
-  Serial.print("Temperature = "); // had issue unless i sent to serial
+  Serial.print("T=");
   Serial.println(DHT.temperature);
-  Serial.print("Humbillity = ");
+  Serial.print("H=");
   Serial.println(DHT.humidity);
 }
 
