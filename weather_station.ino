@@ -42,11 +42,6 @@ char* humidity(){
 }
 
 void display() {
-}
-
-void loop(void) {
-
-  /* Display */
   u8g2.clearBuffer();					// clear the internal memory
   u8g2.setFont(u8g2_font_ncenB14_tr);   // choose a suitable font
   u8g2.drawStr(0, 20, temperature());  // write Temp to the internal memory
@@ -56,12 +51,17 @@ void loop(void) {
   u8g2.drawStr(20, 40, "% Humidity");
   u8g2.sendBuffer();                    // transfer internal memory to the display
   delay(1000);
+}
 
-  /* Display to the console */
+void console_output() {
   Serial.print("Temperature = "); // had issue unless i sent to serial
   Serial.println(DHT.temperature);
   Serial.print("Humbillity = ");
   Serial.println(DHT.humidity);
+}
+
+void loop(void) {
+  display();
+  console_output();
   delay(1000);
-   
 }
