@@ -24,6 +24,14 @@ dht DHT;
 void setup(void) {
   u8g2.begin();
   Serial.begin(9600);
+  DHT.read11(DHT11_PIN); // Read temperature
+}
+
+char* temperature(){
+  int temp_int = DHT.temperature;
+  static char temp_str[3];
+  dtostrf(temp_int, 2, 0, temp_str);
+  return temp_str;
 }
 
 void display() {
@@ -31,22 +39,15 @@ void display() {
 
 void loop(void) {
 
-  /* Read temperature */
-  DHT.read11(DHT11_PIN); // Get DHT info and convert ( Maybe put in seperate void?)
-  
-  int temps = DHT.temperature;
-  char temp_reading_str[3];
-
   int tempsh = DHT.humidity;
   char temph_reading_str[3];
 
-  dtostrf(temps, 2, 0, temp_reading_str);
   dtostrf(tempsh, 2, 0, temph_reading_str); // 
 
   /* Display */
   u8g2.clearBuffer();					// clear the internal memory
   u8g2.setFont(u8g2_font_ncenB14_tr);   // choose a suitable font
-  u8g2.drawStr(0, 20, temp_reading_str);  // write Temp to the internal memory
+  u8g2.drawStr(0, 20, temperature());  // write Temp to the internal memory
   u8g2.setFont(u8g2_font_unifont_t_symbols);
   u8g2.drawUTF8(30,20,"℃");
   u8g2.drawStr(0, 40, temph_reading_str);  // write Humidity to the internal memory
