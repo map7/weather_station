@@ -24,6 +24,9 @@ dht DHT;
 void setup(void) {
   u8g2.begin();
   Serial.begin(9600);
+}
+
+void read_sensors(){
   DHT.read11(DHT11_PIN); // Read DHT sensor values for temperature & humidity
 }
 
@@ -61,6 +64,7 @@ void console_output() {
 }
 
 void loop(void) {
+  read_sensors();
   display();
   console_output();
   delay(1000);
