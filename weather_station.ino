@@ -55,9 +55,9 @@ void display() {
 
 void console_output() {
   Serial.print("T=");
-  Serial.println(DHT.temperature);
+  Serial.println(int(DHT.temperature));
   Serial.print("H=");
-  Serial.println(DHT.humidity);
+  Serial.println(int(DHT.humidity));
 }
 
 void loop(void) {
