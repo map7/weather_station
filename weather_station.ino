@@ -48,9 +48,8 @@ char* humidity(){
 
 /* TODO change to just using unifont  */
 void draw() {
-  u8g2.setFont(u8g2_font_ncenB14_tr);   // choose a suitable font
-  u8g2.drawStr(0, 20, temperature());  // write Temp to the internal memory
   u8g2.setFont(u8g2_font_unifont_t_symbols);
+  u8g2.drawStr(0, 20, temperature());  // write Temp to the internal memory
   u8g2.drawUTF8(30,20,"℃");
   u8g2.drawStr(0, 40, humidity());  // write Humidity to the internal memory
   u8g2.drawStr(20, 40, "% Humidity");
