@@ -28,18 +28,18 @@ void setup(void) {
   Serial.begin(9600);
 }
 
-void read_sensors(){
+void ReadSensors(){
   DHT.read11(DHT11_PIN); // Read DHT sensor values for temperature & humidity
 }
 
-char* temperature(){
+char* Temperature(){
   int temp_int = DHT.temperature;
   static char temp_str[3];
   dtostrf(temp_int, 2, 0, temp_str);
   return temp_str;
 }
 
-char* humidity(){
+char* Humidity(){
   int humidity_int = DHT.humidity;
   static char humidity_str[3];
   dtostrf(humidity_int, 2, 0, humidity_str);
@@ -47,22 +47,22 @@ char* humidity(){
 }
 
 /* TODO change to just using unifont  */
-void draw() {
+void Draw() {
   u8g2.setFont(u8g2_font_unifont_t_symbols);
-  u8g2.drawStr(0, 20, temperature());  // write Temp to the internal memory
+  u8g2.drawStr(0, 20, Temperature());  // write Temp to the internal memory
   u8g2.drawUTF8(30,20,"℃");
-  u8g2.drawStr(0, 40, humidity());  // write Humidity to the internal memory
+  u8g2.drawStr(0, 40, Humidity());  // write Humidity to the internal memory
   u8g2.drawStr(20, 40, "% Humidity");
 }
 
-void display() {
+void Display() {
   u8g2.firstPage();
   do {
-    draw();
+    Draw();
   } while ( u8g2.nextPage() );
 }
 
-void console_output() {
+void ConsoleOutput() {
   Serial.print("T=");
   Serial.println(int(DHT.temperature));
   Serial.print("H=");
@@ -70,8 +70,8 @@ void console_output() {
 }
 
 void loop(void) {
-  read_sensors();
-  display();
-  console_output();
+  ReadSensors();
+  Display();
+  ConsoleOutput();
   delay(1000);
 }
