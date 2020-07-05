@@ -14,7 +14,9 @@
 #endif
 
 /* Setup the LCD screen */
-U8G2_ST7920_128X64_F_SW_SPI u8g2(U8G2_R0, /* SCK clock=*/ 13, /* SID data=*/ 12, /* CS=*/ 11, /* reset=*/ 8); // Look at Pins and change if not same as yours
+/* U8G2_ST7920_128X64_F_SW_SPI u8g2(U8G2_R0, /\* SCK green clock=*\/ 13, /\* SID yellow data=*\/ 12, /\* blue CS=*\/ 11, /\* reset=*\/ 8); // GV 79%, Total 68% */
+
+U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 12, /* CS=*/ 11, /* reset=*/ 8); // GV 35%, 68% Total
 
 /* Temperature: Include and setup */
 #include <dht.h> // Init for DHT
@@ -44,16 +46,21 @@ char* humidity(){
   return humidity_str;
 }
 
-void display() {
-  u8g2.clearBuffer();					// clear the internal memory
+/* TODO change to just using unifont  */
+void draw() {
   u8g2.setFont(u8g2_font_ncenB14_tr);   // choose a suitable font
   u8g2.drawStr(0, 20, temperature());  // write Temp to the internal memory
   u8g2.setFont(u8g2_font_unifont_t_symbols);
   u8g2.drawUTF8(30,20,"℃");
   u8g2.drawStr(0, 40, humidity());  // write Humidity to the internal memory
   u8g2.drawStr(20, 40, "% Humidity");
-  u8g2.sendBuffer();                    // transfer internal memory to the display
-  delay(1000);
+}
+
+void display() {
+  u8g2.firstPage();
+  do {
+    draw();
+  } while ( u8g2.nextPage() );
 }
 
 void console_output() {
