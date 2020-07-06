@@ -84,6 +84,12 @@ void Draw() {
   u8g2.drawUTF8(30,20,"℃");
   u8g2.drawStr(0, 40, Humidity());  // write Humidity to the internal memory
   u8g2.drawStr(20, 40, "% Humidity");
+
+  DateTime now = RTC.now();
+  char buffer[10];
+  sprintf(buffer, "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
+  u8g2.setCursor(0,60);
+  u8g2.print(buffer);
 }
 
 void Display() {
