@@ -35,6 +35,11 @@ RTC_DS1307 RTC;
 void setup(void) {
   u8g2.begin();                 /* LCD */
   Serial.begin(9600);
+
+  /* RTC */
+  Wire.begin();
+  //RTC.adjust(DateTime(F(__DATE__), F(__TIME__))); // sets clock based on yr PC time
+  RTC.begin();
 }
 
 void ReadSensors(){
