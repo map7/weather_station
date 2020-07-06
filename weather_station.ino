@@ -46,6 +46,23 @@ void ReadSensors(){
   DHT.read11(DHT11_PIN); // Read DHT sensor values for temperature & humidity
 }
 
+void GetClock() {
+    DateTime now = RTC.now();
+
+    Serial.print(now.day(), DEC); // print date and time to Serial
+    Serial.print('/');
+    Serial.print(now.month(), DEC);
+    Serial.print('/');
+    Serial.print(now.year(), DEC); 
+    Serial.println();
+    Serial.print(now.hour(), DEC);
+    Serial.print(':');
+    Serial.print(now.minute(), DEC);
+    Serial.print(':');
+    Serial.print(now.second(), DEC);
+    Serial.println();
+} 
+
 char* Temperature(){
   int temp_int = DHT.temperature;
   static char temp_str[3];
@@ -85,6 +102,7 @@ void ConsoleOutput() {
 
 void loop(void) {
   ReadSensors();
+  GetClock();
   Display();
   ConsoleOutput();
   delay(1000);
