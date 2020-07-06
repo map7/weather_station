@@ -28,7 +28,7 @@ dht DHT;
 #define DHT11_PIN 10 // hooked up to pin 10
 
 void setup(void) {
-  u8g2.begin();
+  u8g2.begin();                 /* LCD */
   Serial.begin(9600);
 }
 
