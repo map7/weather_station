@@ -27,6 +27,11 @@ U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 12, /* CS=*
 dht DHT;
 #define DHT11_PIN 10 // hooked up to pin 10
 
+/* RTC */
+#include "RTClib.h" // Rtc Lib
+#include <Wire.h>   // RTC Lib
+RTC_DS1307 RTC;
+
 void setup(void) {
   u8g2.begin();                 /* LCD */
   Serial.begin(9600);
