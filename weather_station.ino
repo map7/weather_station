@@ -10,17 +10,21 @@
 #include "esp8266_setup.h"
 
 void setup(void) {
-  u8g2.begin();                 /* LCD */
+  if (EnableLCD) { u8g2.begin(); }
   Serial.begin(9600);
 
-  /* RTC */
-  Wire.begin();
-  //RTC.adjust(DateTime(F(__DATE__), F(__TIME__))); // sets clock based on yr PC time
-  RTC.begin();
-
+  if (EnableRTC){
+    /* RTC */
+    Wire.begin();
+    //RTC.adjust(DateTime(F(__DATE__), F(__TIME__))); // sets clock based on yr PC time
+    RTC.begin();
+  }
+  
   /* ESP8266 */
-  BeginESP8266();
-  ConnectWIFI();
+  if (EnableESP8266){
+    BeginESP8266();
+    ConnectWIFI();
+  }
 }
 
 void BeginESP8266(){
@@ -41,22 +45,20 @@ void ConnectWIFI(){
 }
 
 void GetClock() {
-  if (EnableRTC) {
-    DateTime now = RTC.now();
+  DateTime now = RTC.now();
 
-    Serial.print(now.day(), DEC); // print date and time to Serial
-    Serial.print('/');
-    Serial.print(now.month(), DEC);
-    Serial.print('/');
-    Serial.print(now.year(), DEC); 
-    Serial.println();
-    Serial.print(now.hour(), DEC);
-    Serial.print(':');
-    Serial.print(now.minute(), DEC);
-    Serial.print(':');
-    Serial.print(now.second(), DEC);
-    Serial.println();
-  }
+  Serial.print(now.day(), DEC); // print date and time to Serial
+  Serial.print('/');
+  Serial.print(now.month(), DEC);
+  Serial.print('/');
+  Serial.print(now.year(), DEC); 
+  Serial.println();
+  Serial.print(now.hour(), DEC);
+  Serial.print(':');
+  Serial.print(now.minute(), DEC);
+  Serial.print(':');
+  Serial.print(now.second(), DEC);
+  Serial.println();
 } 
 
 void ReadDHT(){
@@ -78,12 +80,14 @@ void Draw() {
   u8g2.setFont(u8g2_font_unifont_t_symbols);
 
   if (connected == true){
-    
-    /* Temperature & Humidity */
-    u8g2.drawStr(0, 20, temperature_str);  // write Temp to the internal memory
-    u8g2.drawUTF8(20,20,"℃");
-    u8g2.drawStr(0, 40, humidity_str);  // write Humidity to the internal memory
-    u8g2.drawStr(20, 40, "% Humidity");
+
+    if (EnableDHT){
+      /* Temperature & Humidity */
+      u8g2.drawStr(0, 20, temperature_str);  // write Temp to the internal memory
+      u8g2.drawUTF8(20,20,"℃");
+      u8g2.drawStr(0, 40, humidity_str);  // write Humidity to the internal memory
+      u8g2.drawStr(20, 40, "% Humidity");
+    }
 
     if (EnableRTC) {
       /* Time */
@@ -128,14 +132,16 @@ void ConsoleOutput() {
 }
 
 void loop(void) {
-  GetClock();
+  if (EnableRTC) { GetClock(); }
 
-  ReadDHT();
-  GetTemperature();
-  GetHumidity();
-
-  SendData();
-  Display();
+  if (EnableDHT) {
+    ReadDHT();
+    GetTemperature();
+    GetHumidity();
+  }
+  
+  if (EnableESP8266){ SendData(); }
+  if (EnableLCD) { Display(); }
   ConsoleOutput();
 
   delay(1000);
