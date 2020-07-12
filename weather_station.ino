@@ -106,7 +106,7 @@ void Display() {
 void SendData() {
 
   /* Setup the URL with our sensor information */
-  String getData = "GET /update?api_key="+ API +"&"+ field +"="+String(temperature_str);sendCommand("AT+CIPMUX=1",5,"OK");
+  String getData = "GET /update?api_key="+ API +"&"+ field +"="+String(temperature_str) +"&field2="+String(humidity_str);sendCommand("AT+CIPMUX=1",5,"OK");
 
   /* Send the data */
   sendCommand("AT+CIPSTART=0,\"TCP\",\""+ HOST +"\","+ PORT,15,"OK");
