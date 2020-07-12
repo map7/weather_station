@@ -3,12 +3,10 @@
 */
 
 #include <Arduino.h>
-#include "lcdSetup.h"
-#include "dhtSetup.h"
-#include "rtcSetup.h"
-
-/* ESP8266 */
-
+#include "lcd_setup.h"
+#include "dht_setup.h"
+#include "rtc_setup.h"
+#include "esp8266_setup.h"
 
 void setup(void) {
   u8g2.begin();                 /* LCD */
