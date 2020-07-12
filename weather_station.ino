@@ -5,11 +5,7 @@
 #include <Arduino.h>
 #include "lcdSetup.h"
 #include "dhtSetup.h"
-
-/* RTC */
-#include "RTClib.h" // Rtc Lib
-#include <Wire.h>   // RTC Lib
-RTC_DS1307 RTC;
+#include "rtcSetup.h"
 
 /* ESP8266 */
 
