@@ -3,6 +3,7 @@
 */
 
 #include <Arduino.h>
+#include "options.h"            /* Turn sensors and output on and off. */
 #include "lcd_setup.h"
 #include "dht_setup.h"
 #include "rtc_setup.h"
@@ -40,6 +41,7 @@ void ConnectWIFI(){
 }
 
 void GetClock() {
+  if (EnableRTC) {
     DateTime now = RTC.now();
 
     Serial.print(now.day(), DEC); // print date and time to Serial
@@ -54,6 +56,7 @@ void GetClock() {
     Serial.print(':');
     Serial.print(now.second(), DEC);
     Serial.println();
+  }
 } 
 
 void ReadDHT(){
@@ -82,12 +85,14 @@ void Draw() {
     u8g2.drawStr(0, 40, humidity_str);  // write Humidity to the internal memory
     u8g2.drawStr(20, 40, "% Humidity");
 
-    /* Time */
-    DateTime now = RTC.now();
-    char buffer[10];
-    sprintf(buffer, "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
-    u8g2.setCursor(0,60);
-    u8g2.print(buffer);
+    if (EnableRTC) {
+      /* Time */
+      DateTime now = RTC.now();
+      char buffer[10];
+      sprintf(buffer, "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
+      u8g2.setCursor(0,60);
+      u8g2.print(buffer);
+    }
     
   } else {
     u8g2.drawStr(0,20, "Weather Station");
