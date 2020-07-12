@@ -20,12 +20,12 @@
 /* U8G2_ST7920_128X64_F_SW_SPI u8g2(U8G2_R0, /\* SCK green clock=*\/ 13, /\* SID yellow data=*\/ 12, /\* blue CS=*\/ 11, /\* reset=*\/ 8); // GV 79%, Total 68% */
 
 /* Setup using Page Buffer (Defined by the _1_ in the following command) LOW MEMORY */
-U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 12, /* CS=*/ 11, /* reset=*/ 8);
+U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock (green)=*/ 13, /* data (yello)=*/ 12, /* CS (blue)=*/ 11, /* reset=*/ 8);
 
 /* Temperature: Include and setup */
 #include <dht.h> // Init for DHT
 dht DHT;
-#define DHT11_PIN 10 // hooked up to pin 10
+#define DHT11_PIN 10 // hooked up to pin 10 (blue)
 char temperature_str[3];
 
 /* RTC */
