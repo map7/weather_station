@@ -102,6 +102,19 @@ void Display() {
   } while ( u8g2.nextPage() );
 }
 
+/* Send sensor information to ThingSpeak */
+void SendData() {
+
+  /* Setup the URL with our sensor information */
+  String getData = "GET /update?api_key="+ API +"&"+ field +"="+String(temperature_str);sendCommand("AT+CIPMUX=1",5,"OK");
+
+  /* Send the data */
+  sendCommand("AT+CIPSTART=0,\"TCP\",\""+ HOST +"\","+ PORT,15,"OK");
+  sendCommand("AT+CIPSEND=0," +String(getData.length()+4),4,">");
+  esp8266.println(getData);delay(1500);countTrueCommand++;
+  sendCommand("AT+CIPCLOSE=0",5,"OK");
+}
+
 void ConsoleOutput() {
   Serial.print("T=");
   Serial.println(int(DHT.temperature));
@@ -115,8 +128,10 @@ void loop(void) {
   ReadDHT();
   GetTemperature();
   GetHumidity();
-  
+
+  SendData();
   Display();
   ConsoleOutput();
+
   delay(1000);
 }
