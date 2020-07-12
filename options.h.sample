@@ -1,0 +1,5 @@
+#define EnableDHT true
+#define EnableBMP388 false
+#define EnableRTC true
+#define EnableLCD true
+#define EnableESP8266 true
