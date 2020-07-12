@@ -16,6 +16,27 @@ void setup(void) {
   Wire.begin();
   //RTC.adjust(DateTime(F(__DATE__), F(__TIME__))); // sets clock based on yr PC time
   RTC.begin();
+
+  /* ESP8266 */
+  BeginESP8266();
+  ConnectWIFI();
+}
+
+void BeginESP8266(){
+  esp8266.begin(9600);
+  Serial.println("");
+  Serial.println("Remember to to set Both NL & CR in the serial monitor.");
+  Serial.println("Ready");
+  Serial.println("");
+}
+
+void ConnectWIFI(){
+  Display();
+  sendCommand("AT",5,"OK");
+  sendCommand("AT+CWMODE=1",5,"OK");
+  sendCommand("AT+CWJAP=\""+ AP +"\",\""+ PASS +"\"",20,"OK");
+  sendCommand("AT+CIFSR",5,"OK");
+  connected = true;
 }
 
 void GetClock() {
@@ -52,16 +73,26 @@ void GetHumidity(){
 /* TODO change to just using unifont  */
 void Draw() {
   u8g2.setFont(u8g2_font_unifont_t_symbols);
-  u8g2.drawStr(0, 20, temperature_str);  // write Temp to the internal memory
-  u8g2.drawUTF8(20,20,"℃");
-  u8g2.drawStr(0, 40, humidity_str);  // write Humidity to the internal memory
-  u8g2.drawStr(20, 40, "% Humidity");
 
-  DateTime now = RTC.now();
-  char buffer[10];
-  sprintf(buffer, "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
-  u8g2.setCursor(0,60);
-  u8g2.print(buffer);
+  if (connected == true){
+    
+    /* Temperature & Humidity */
+    u8g2.drawStr(0, 20, temperature_str);  // write Temp to the internal memory
+    u8g2.drawUTF8(20,20,"℃");
+    u8g2.drawStr(0, 40, humidity_str);  // write Humidity to the internal memory
+    u8g2.drawStr(20, 40, "% Humidity");
+
+    /* Time */
+    DateTime now = RTC.now();
+    char buffer[10];
+    sprintf(buffer, "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
+    u8g2.setCursor(0,60);
+    u8g2.print(buffer);
+    
+  } else {
+    u8g2.drawStr(0,20, "Weather Station");
+    u8g2.drawStr(0,40, "Connecting WIFI");
+  }
 }
 
 void Display() {
