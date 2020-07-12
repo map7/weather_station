@@ -44,10 +44,6 @@ void setup(void) {
   RTC.begin();
 }
 
-void ReadSensors(){
-  DHT.read11(DHT11_PIN); // Read DHT sensor values for temperature & humidity
-}
-
 void GetClock() {
     DateTime now = RTC.now();
 
@@ -64,6 +60,10 @@ void GetClock() {
     Serial.print(now.second(), DEC);
     Serial.println();
 } 
+
+void ReadDHT(){
+  DHT.read11(DHT11_PIN); // Read DHT sensor values for temperature & humidity
+}
 
 void GetTemperature(){
   int temp_int = DHT.temperature;
@@ -105,10 +105,12 @@ void ConsoleOutput() {
 }
 
 void loop(void) {
-  ReadSensors();
   GetClock();
+
+  ReadDHT();
   GetTemperature();
   GetHumidity();
+  
   Display();
   ConsoleOutput();
   delay(1000);
