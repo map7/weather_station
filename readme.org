@@ -1,16 +1,24 @@
 * Weather Station
 
-Status
-: git status
+** Hardware
 
-Add all files
-: git add .
+- Arduino Uno 3
+- DHT11
+- RTC
+- ESP8266
+- LCD 
 
-Commit changes
-: git commit -am 'initial commit'
+** Setup
 
-Clone project into your Sketchbook
-: git clone https://github.com/map7/weather_station.git
+1. Add wifi options to a file called arduino_secrets.h (you will have to make the file)
+   : #define SECRET_SSID "<your SSID>"
+   : #define SECRET_PASS "<password>"
+   : #define SECRET_WRITE_API "<ThingSpeak Write API>"
 
-test one two
+   Hint: Copy arduino_secrets.h.sample to arduino_secrets.h
 
+2. Turn on sensors and output in options.h eg;
+   : #define RTC false
+
+   Hint: Copy options.h.sample to options.h
+   
