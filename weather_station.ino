@@ -26,6 +26,7 @@ U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 12, /* CS=*
 #include <dht.h> // Init for DHT
 dht DHT;
 #define DHT11_PIN 10 // hooked up to pin 10
+char temperature_str[3];
 
 /* RTC */
 #include "RTClib.h" // Rtc Lib
@@ -63,11 +64,9 @@ void GetClock() {
     Serial.println();
 } 
 
-char* Temperature(){
+void GetTemperature(){
   int temp_int = DHT.temperature;
-  static char temp_str[3];
-  dtostrf(temp_int, 2, 0, temp_str);
-  return temp_str;
+  dtostrf(temp_int, 2, 0, temperature_str);
 }
 
 char* Humidity(){
@@ -80,7 +79,7 @@ char* Humidity(){
 /* TODO change to just using unifont  */
 void Draw() {
   u8g2.setFont(u8g2_font_unifont_t_symbols);
-  u8g2.drawStr(0, 20, Temperature());  // write Temp to the internal memory
+  u8g2.drawStr(0, 20, temperature_str);  // write Temp to the internal memory
   u8g2.drawUTF8(30,20,"℃");
   u8g2.drawStr(0, 40, Humidity());  // write Humidity to the internal memory
   u8g2.drawStr(20, 40, "% Humidity");
@@ -109,6 +108,7 @@ void ConsoleOutput() {
 void loop(void) {
   ReadSensors();
   GetClock();
+  GetTemperature();
   Display();
   ConsoleOutput();
   delay(1000);
