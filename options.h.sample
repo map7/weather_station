@@ -3,3 +3,4 @@
 #define EnableRTC true
 #define EnableLCD true
 #define EnableESP8266 true
+#define EnableLDR true

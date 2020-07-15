@@ -76,6 +76,13 @@ void GetHumidity(){
   dtostrf(humidity_int, 2, 0, humidity_str);
 }
 
+void GetLDR(){
+  /* LDR Readings */
+  value = analogRead (sensorPin);
+  Serial.print("LDR: "); 
+  Serial.println (value, DEC);
+}
+
 /* TODO change to just using unifont  */
 void Draw() {
   u8g2.setFont(u8g2_font_unifont_t_symbols);
@@ -140,16 +147,12 @@ void loop(void) {
     GetTemperature();
     GetHumidity();
   }
+
+  if (EnableLDR) { GetLDR(); }
   
   if (EnableESP8266){ SendData(); }
   if (EnableLCD) { Display(); }
   ConsoleOutput();
 
   delay(1000);
-
-  /* LDR Readings */
-  value = analogRead (sensorPin);
-  Serial.print("LDR: "); 
-  Serial.println (value, DEC);
-  delay (50); 
 }
