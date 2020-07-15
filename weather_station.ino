@@ -78,9 +78,9 @@ void GetHumidity(){
 
 void GetLDR(){
   /* LDR Readings */
-  value = analogRead (sensorPin);
+  ldr_int = analogRead (sensorPin);
   Serial.print("LDR: "); 
-  Serial.println (value, DEC);
+  Serial.println (ldr_int, DEC);
 }
 
 /* TODO change to just using unifont  */
