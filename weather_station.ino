@@ -108,8 +108,8 @@ void Draw() {
 
     if (EnableLDR) {
       u8g2.drawStr(70,20, "LDR ");
-      dtostrf(ldr_int, 4, 0, ldr_str);
-      u8g2.drawStr(90,20, ldr_str);
+      dtostrf(ldr_int, 2, 0, ldr_str);
+      u8g2.drawStr(100,20, ldr_str);
     }
     
   } else {
