@@ -105,6 +105,13 @@ void Draw() {
       u8g2.setCursor(0,60);
       u8g2.print(buffer);
     }
+
+    if (EnableLDR) {
+      u8g2.drawStr(70,20, "LDR ");
+      char ldr_str[4];
+      dtostrf(ldr_int, 4, 0, ldr_str);
+      u8g2.drawStr(90,20, ldr_str);
+    }
     
   } else {
     u8g2.drawStr(0,20, "Weather Station");
