@@ -15,10 +15,10 @@
    : #define SECRET_PASS "<password>"
    : #define SECRET_WRITE_API "<ThingSpeak Write API>"
 
-   Hint: Copy arduino_secrets.h.sample to arduino_secrets.h
+   Hint: Create arduino_secrets.h and copy the contents of arduino_secrets.h.sample
 
 2. Turn on sensors and output in options.h eg;
    : #define RTC false
 
-   Hint: Copy options.h.sample to options.h
+   Hint: Create options.h and copy the contents of options.h.sample
    
