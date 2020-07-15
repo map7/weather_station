@@ -108,7 +108,6 @@ void Draw() {
 
     if (EnableLDR) {
       u8g2.drawStr(70,20, "LDR ");
-      char ldr_str[4];
       dtostrf(ldr_int, 4, 0, ldr_str);
       u8g2.drawStr(90,20, ldr_str);
     }
@@ -130,7 +129,13 @@ void Display() {
 void SendData() {
 
   /* Setup the URL with our sensor information */
-  String getData = "GET /update?api_key="+ API +"&"+ field +"="+String(temperature_str) +"&field2="+String(humidity_str);sendCommand("AT+CIPMUX=1",5,"OK");
+  String temp_field = "&field1="+String(temperature_str);
+  String rh_field =   "&field2="+String(humidity_str);
+
+  dtostrf(ldr_int, 2, 0, ldr_str); /* Work around because ThingSpeak was reporting 10,000 */
+  String ldr_field =  "&field3="+String(ldr_str);
+
+  String getData = "GET /update?api_key="+ API + temp_field + rh_field + ldr_field;sendCommand("AT+CIPMUX=1",5,"OK");
 
   /* Send the data */
   sendCommand("AT+CIPSTART=0,\"TCP\",\""+ HOST +"\","+ PORT,15,"OK");
