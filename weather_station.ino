@@ -8,6 +8,7 @@
 #include "dht_setup.h"
 #include "rtc_setup.h"
 #include "esp8266_setup.h"
+#include "ldr_setup.h"
 
 void setup(void) {
   if (EnableLCD) { u8g2.begin(); }
@@ -145,4 +146,10 @@ void loop(void) {
   ConsoleOutput();
 
   delay(1000);
+
+  /* LDR Readings */
+  value = analogRead (sensorPin);
+  Serial.print("LDR: "); 
+  Serial.println (value, DEC);
+  delay (50); 
 }
