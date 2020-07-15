@@ -86,7 +86,7 @@ void Draw() {
       u8g2.drawStr(0, 20, temperature_str);  // write Temp to the internal memory
       u8g2.drawUTF8(20,20,"℃");
       u8g2.drawStr(0, 40, humidity_str);  // write Humidity to the internal memory
-      u8g2.drawStr(20, 40, "% Humidity");
+      u8g2.drawStr(20, 40, "% RH");
     }
 
     if (EnableRTC) {
