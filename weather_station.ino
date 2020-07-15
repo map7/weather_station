@@ -140,7 +140,7 @@ void SendData() {
   /* Send the data */
   sendCommand("AT+CIPSTART=0,\"TCP\",\""+ HOST +"\","+ PORT,15,"OK");
   sendCommand("AT+CIPSEND=0," +String(getData.length()+4),4,">");
-  esp8266.println(getData);delay(1500);countTrueCommand++;
+  esp8266.println(getData);delay(1000);countTrueCommand++;
   sendCommand("AT+CIPCLOSE=0",5,"OK");
 }
 
@@ -162,9 +162,11 @@ void loop(void) {
 
   if (EnableLDR) { GetLDR(); }
   
-  if (EnableESP8266){ SendData(); }
+  if (EnableESP8266){
+    SendData();
+  }else{
+    delay(1000);
+  }
   if (EnableLCD) { Display(); }
   ConsoleOutput();
-
-  delay(1000);
 }
