@@ -3,3 +3,4 @@ const int rain_A = A1;
 
 int rain_val_A;
 int rain_val_D;
+char rain_str[4];
