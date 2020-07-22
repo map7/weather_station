@@ -35,9 +35,11 @@ void setup(void) {
   }
 
   /* Rain Sensor */
-  pinMode(rain_D, INPUT);
-  pinMode(rain_A, INPUT);
-  Serial.begin(9600);
+  if (EnableRAIN){
+    pinMode(rain_D, INPUT);
+    pinMode(rain_A, INPUT);
+    Serial.begin(9600);
+  }
   
 }
 
