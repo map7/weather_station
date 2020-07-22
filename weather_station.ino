@@ -173,9 +173,9 @@ void Draw() {
   }
 
   if (EnableLDR) {
-    u8g2.drawStr(70,20, "LDR ");
+    u8g2.drawStr(40,20, "L ");
     dtostrf(ldr_int, 2, 0, ldr_str);
-    u8g2.drawStr(100,20, ldr_str);
+    u8g2.drawStr(50,20, ldr_str);
   }
 
   if (EnableBMP388) {
