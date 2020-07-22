@@ -7,6 +7,7 @@
 #include "lcd_setup.h"
 #include "dht_setup.h"
 #include "rtc_setup.h"
+#include "bmp388_setup.h"
 #include "esp8266_setup.h"
 #include "ldr_setup.h"
 
@@ -26,7 +27,15 @@ void setup(void) {
     BeginESP8266();
     ConnectWIFI();
   }
+  
+  /* BMP388 */
+  if (EnableBMP388){
+     BeginBMP388();      // 388 Set up
+  } 
+
 }
+
+
 
 void BeginESP8266(){
   esp8266.begin(9600);
@@ -34,6 +43,13 @@ void BeginESP8266(){
   Serial.println("Remember to to set Both NL & CR in the serial monitor.");
   Serial.println("Ready");
   Serial.println("");
+}
+
+void BeginBMP388(){
+  bmp.begin();
+     bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_2X); // 388 Set up
+     bmp.setPressureOversampling(BMP3_OVERSAMPLING_2X);    // 388 Set up
+     bmp.setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_3); 
 }
 
 void ConnectWIFI(){
@@ -44,6 +60,20 @@ void ConnectWIFI(){
   sendCommand("AT+CIFSR",5,"OK");
   connected = true;
 }
+
+void GetBmpData() {
+  if (! bmp.performReading()) {
+    Serial.println("Failed to perform reading :(");
+    return;
+  } 
+  Serial.print("Temperature = ");
+  Serial.print(bmp.temperature);
+  Serial.println(" *C");
+ 
+  Serial.print("Pressure = ");
+  Serial.print(bmp.pressure / 100.0);
+  Serial.println(" hPa");
+} 
 
 void GetClock() {
   DateTime now = RTC.now();
@@ -60,6 +90,8 @@ void GetClock() {
   Serial.print(':');
   Serial.print(now.second(), DEC);
   Serial.println();
+
+ 
 } 
 
 void ReadDHT(){
@@ -87,14 +119,24 @@ void GetLDR(){
 void Draw() {
   u8g2.setFont(u8g2_font_unifont_t_symbols);
 
-  if (connected == true){
-
+  if (connected == true){       // might be better to say if connected = false show a number or sign as display freezes if connection isnt true
+      u8g2.drawStr(100, 60, "CT");
+  }
+      else {
+      u8g2.drawStr(100, 60, "NT");
+  }
     if (EnableDHT){
       /* Temperature & Humidity */
-      u8g2.drawStr(0, 20, temperature_str);  // write Temp to the internal memory
+    if (! EnableBMP388) {
+      u8g2.drawStr(0, 20, temperature_str);  // write Temp to the internal memory. Check if bmp is not enabled before displaying dht temp.
       u8g2.drawUTF8(20,20,"℃");
       u8g2.drawStr(0, 40, humidity_str);  // write Humidity to the internal memory
       u8g2.drawStr(20, 40, "% RH");
+      }
+      else {
+      u8g2.drawStr(0, 40, humidity_str);  // write Humidity to the internal memory
+      u8g2.drawStr(20, 40, "% RH");
+      }
     }
 
     if (EnableRTC) {
@@ -111,12 +153,28 @@ void Draw() {
       dtostrf(ldr_int, 2, 0, ldr_str);
       u8g2.drawStr(100,20, ldr_str);
     }
+
+    if (EnableBMP388) {
+      float press_int = (bmp.pressure / 100.0) ; // Cant Get proper pressure reading on screen
+      dtostrf(press_int, 5, 1, press_str);
+      u8g2.drawStr(110,40, "hP");
+      u8g2.drawStr(60,40, press_str);
+      
+      float temp388_int = (bmp.temperature) ; // Cant Get proper pressure reading on screen
+      dtostrf(temp388_int, 3, 1, temp388_str);
+      u8g2.drawStr(0, 20, temp388_str);  // write Temp to the internal memory. Check if bmp is not enabled before displaying dht temp.
+      u8g2.drawUTF8(35,20,"C");
+    }
     
-  } else {
+  } 
+  
+  /* else {
+    if (EnableESP8266){
     u8g2.drawStr(0,20, "Weather Station");
     u8g2.drawStr(0,40, "Connecting WIFI");
-  }
-}
+    } */
+  
+//}
 
 void Display() {
   u8g2.firstPage();
@@ -159,6 +217,10 @@ void loop(void) {
     GetTemperature();
     GetHumidity();
   }
+
+  if (EnableBMP388) {
+    GetBmpData();
+  } 
 
   if (EnableLDR) { GetLDR(); }
   
