@@ -10,11 +10,7 @@
 #include "bmp388_setup.h"
 #include "esp8266_setup.h"
 #include "ldr_setup.h"
-
-const int rain_D = 9;
-const int rain_A = A1;
-
-int rain_val;
+#include "rain_setup.h"
 
 void setup(void) {
   if (EnableLCD) { u8g2.begin(); }
