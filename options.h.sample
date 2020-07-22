@@ -4,3 +4,4 @@
 #define EnableLCD true
 #define EnableESP8266 true
 #define EnableLDR true
+#define EnableRAIN true
