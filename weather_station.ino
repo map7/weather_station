@@ -11,6 +11,11 @@
 #include "esp8266_setup.h"
 #include "ldr_setup.h"
 
+const int rain_D = 9;
+const int rain_A = A1;
+
+int rain_val;
+
 void setup(void) {
   if (EnableLCD) { u8g2.begin(); }
   Serial.begin(9600);
@@ -33,6 +38,11 @@ void setup(void) {
     BeginBMP388();      // 388 Set up
   }
 
+  /* Rain Sensor */
+  pinMode(rain_D, INPUT);
+  pinMode(rain_A, INPUT);
+  Serial.begin(9600);
+  
 }
 
 void BeginESP8266(){
@@ -221,6 +231,22 @@ void loop(void) {
   } 
 
   if (EnableLDR) { GetLDR(); }
+
+  /* Rain */
+  if(digitalRead(rain_D) == HIGH) 
+    {
+      Serial.println("Rain Digital value: wet"); 
+      delay(10); 
+    }
+  else
+    {
+      Serial.println("Rain Digital value: dry");
+      delay(10); 
+    }
+  rain_val=analogRead(rain_A); 
+  Serial.print("Rain Analog value : ");
+  Serial.println(rain_val); 
+  Serial.println("");
   
   if (EnableESP8266){
     SendData();
