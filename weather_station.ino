@@ -121,6 +121,24 @@ void GetLDR(){
   Serial.println (ldr_int, DEC);
 }
 
+void GetRAIN(){
+  rain_val_D = digitalRead(rain_D);
+  if(rain_val_D == HIGH) 
+    {
+      Serial.println("Rain Digital value: wet"); 
+      delay(10); 
+    }
+  else
+    {
+      Serial.println("Rain Digital value: dry");
+      delay(10); 
+    }
+  rain_val_A=analogRead(rain_A); 
+  Serial.print("Rain Analog value : ");
+  Serial.println(rain_val_A); 
+  Serial.println("");
+}
+
 /* TODO change to just using unifont  */
 void Draw() {
   u8g2.setFont(u8g2_font_unifont_t_symbols);
@@ -231,20 +249,7 @@ void loop(void) {
   if (EnableLDR) { GetLDR(); }
 
   /* Rain */
-  if(digitalRead(rain_D) == HIGH) 
-    {
-      Serial.println("Rain Digital value: wet"); 
-      delay(10); 
-    }
-  else
-    {
-      Serial.println("Rain Digital value: dry");
-      delay(10); 
-    }
-  rain_val=analogRead(rain_A); 
-  Serial.print("Rain Analog value : ");
-  Serial.println(rain_val); 
-  Serial.println("");
+  if (EnableRAIN) { GetRAIN(); }
   
   if (EnableESP8266){
     SendData();
