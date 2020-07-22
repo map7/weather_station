@@ -223,7 +223,9 @@ void SendData() {
   dtostrf(ldr_int, 2, 0, ldr_str); /* Work around because ThingSpeak was reporting 10,000 */
   String ldr_field =  "&field3="+String(ldr_str);
 
-  String getData = "GET /update?api_key="+ API + temp_field + rh_field + ldr_field;sendCommand("AT+CIPMUX=1",5,"OK");
+  String rain_field =  "&field4="+String(rain_str);
+  
+  String getData = "GET /update?api_key="+ API + temp_field + rh_field + ldr_field + rain_field;sendCommand("AT+CIPMUX=1",5,"OK");
 
   /* Send the data */
   sendCommand("AT+CIPSTART=0,\"TCP\",\""+ HOST +"\","+ PORT,15,"OK");
