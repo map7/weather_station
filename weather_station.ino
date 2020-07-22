@@ -178,6 +178,12 @@ void Draw() {
     u8g2.drawStr(50,20, ldr_str);
   }
 
+  if (EnableRAIN) {
+    u8g2.drawStr(90,20, "R ");
+    dtostrf(rain_val_A, 2, 0, rain_str);
+    u8g2.drawStr(100,20, rain_str);
+  }
+
   if (EnableBMP388) {
     float press_int = (bmp.pressure / 100.0) ; // Cant Get proper pressure reading on screen
     dtostrf(press_int, 5, 1, press_str);
