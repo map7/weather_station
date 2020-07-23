@@ -47,8 +47,8 @@ void setup(void) {
 
   /* Rain Sensor */
   if (EnableRAIN){
-    pinMode(rain_D, INPUT);
-    pinMode(rain_A, INPUT);
+    pinMode(RAIN_D_PIN, INPUT);
+    pinMode(RAIN_A_PIN, INPUT);
     Serial.begin(9600);
   }
 }
@@ -110,7 +110,7 @@ void GetLDR(){
 }
 
 void GetRAIN(){
-  rain_val_D = digitalRead(rain_D);
+  rain_val_D = digitalRead(RAIN_D_PIN);
   if(rain_val_D == HIGH) 
     {
       Serial.println("R:wet"); 
@@ -121,7 +121,7 @@ void GetRAIN(){
       Serial.println("R:dry");
       delay(10); 
     }
-  rain_val_A=analogRead(rain_A); 
+  rain_val_A=analogRead(RAIN_A_PIN); 
   Serial.print("R: ");
   Serial.println(rain_val_A); 
 }
