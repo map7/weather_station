@@ -93,12 +93,12 @@ void ReadDHT(){
 }
 
 void GetTemperature(){
-  int temp_int = DHT.temperature;
+  byte temp_int = DHT.temperature;
   dtostrf(temp_int, 2, 0, temperature_str);
 }
 
 void GetHumidity(){
-  int humidity_int = DHT.humidity;
+  byte humidity_int = DHT.humidity;
   dtostrf(humidity_int, 2, 0, humidity_str);
 }
 

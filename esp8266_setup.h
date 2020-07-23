@@ -9,15 +9,15 @@ String HOST = "api.thingspeak.com";
 String PORT = "80";
 String field = "field1";
 
-int countTrueCommand;
-int countTimeCommand; 
+byte countTrueCommand;
+byte countTimeCommand; 
 boolean found = false; 
 boolean connected = false; 
-int valSensor = 1;
+byte valSensor = 1;
 
 SoftwareSerial esp8266(2, 3); // RX | TX
 
-void sendCommand(String command, int maxTime, char readReplay[]) {
+void sendCommand(String command, byte maxTime, char readReplay[]) {
   Serial.print(countTrueCommand);
   Serial.print(". at cmd: ");
   Serial.print(command);
