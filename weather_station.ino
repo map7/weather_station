@@ -45,13 +45,6 @@ void setup(void) {
 
 void BeginESP8266(){
   esp8266.begin(9600);
-}
-
-void BeginBMP388(){
-  bmp.begin();
-  bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_2X); // 388 Set up
-  bmp.setPressureOversampling(BMP3_OVERSAMPLING_2X);    // 388 Set up
-  bmp.setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_3);
   /* Serial.println(""); */
   /* Serial.println("Remember to to set Both NL & CR in the serial monitor."); */
   /* Serial.println("Ready"); */
@@ -66,20 +59,6 @@ void ConnectWIFI(){
   sendCommand("AT+CIFSR",5,"OK");
   connected = true;
 }
-
-void GetBmpData() {
-  if (! bmp.performReading()) {
-    Serial.println("Failed to perform reading :(");
-    return;
-  } 
-  Serial.print("Temperature = ");
-  Serial.print(bmp.temperature);
-  Serial.println(" *C");
- 
-  Serial.print("Pressure = ");
-  Serial.print(bmp.pressure / 100.0);
-  Serial.println(" hPa");
-} 
 
 void GetClock() {
   DateTime now = RTC.now();
