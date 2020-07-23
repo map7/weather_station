@@ -19,7 +19,7 @@ SoftwareSerial esp8266(2, 3); // RX | TX
 
 void sendCommand(String command, int maxTime, char readReplay[]) {
   Serial.print(countTrueCommand);
-  Serial.print(". at command => ");
+  Serial.print(". at cmd: ");
   Serial.print(command);
   Serial.print(" ");
   while(countTimeCommand < (maxTime*1))
@@ -36,14 +36,14 @@ void sendCommand(String command, int maxTime, char readReplay[]) {
   
   if(found == true)
   {
-    Serial.println("OYI");
+    Serial.println("Ok");
     countTrueCommand++;
     countTimeCommand = 0;
   }
   
   if(found == false)
   {
-    Serial.println("Fail");
+    Serial.println("F");
     countTrueCommand = 0;
     countTimeCommand = 0;
   }

@@ -45,10 +45,6 @@ void setup(void) {
 
 void BeginESP8266(){
   esp8266.begin(9600);
-  Serial.println("");
-  Serial.println("Remember to to set Both NL & CR in the serial monitor.");
-  Serial.println("Ready");
-  Serial.println("");
 }
 
 void BeginBMP388(){
@@ -56,6 +52,10 @@ void BeginBMP388(){
   bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_2X); // 388 Set up
   bmp.setPressureOversampling(BMP3_OVERSAMPLING_2X);    // 388 Set up
   bmp.setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_3);
+  /* Serial.println(""); */
+  /* Serial.println("Remember to to set Both NL & CR in the serial monitor."); */
+  /* Serial.println("Ready"); */
+  /* Serial.println(""); */
 }
 
 void ConnectWIFI(){
@@ -125,18 +125,17 @@ void GetRAIN(){
   rain_val_D = digitalRead(rain_D);
   if(rain_val_D == HIGH) 
     {
-      Serial.println("Rain Digital value: wet"); 
+      Serial.println("R:wet"); 
       delay(10); 
     }
   else
     {
-      Serial.println("Rain Digital value: dry");
+      Serial.println("R:dry");
       delay(10); 
     }
   rain_val_A=analogRead(rain_A); 
-  Serial.print("Rain Analog value : ");
+  Serial.print("R: ");
   Serial.println(rain_val_A); 
-  Serial.println("");
 }
 
 /* TODO change to just using unifont  */
