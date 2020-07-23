@@ -4,16 +4,27 @@
 
 #include <Arduino.h>
 #include "options.h"            /* Turn sensors and output on and off. */
+
+#if EnableLCD
 #include "lcd_setup.h"
+#endif
+
 #include "dht_setup.h"
+
 #include "rtc_setup.h"
+
+#if EnableBMP388
 #include "bmp388_setup.h"
+#endif
+
 #include "esp8266_setup.h"
 #include "ldr_setup.h"
 #include "rain_setup.h"
 
 void setup(void) {
-  if (EnableLCD) { u8g2.begin(); }
+  #if EnableLCD
+  u8g2.begin();
+  #endif
   Serial.begin(9600);
 
   if (EnableRTC){
@@ -30,9 +41,9 @@ void setup(void) {
   }
   
   /* BMP388 */
-  if (EnableBMP388){
-    BeginBMP388();      // 388 Set up
-  }
+  #if EnableBMP388
+  BeginBMP388();      // 388 Set up
+  #endif
 
   /* Rain Sensor */
   if (EnableRAIN){
@@ -40,8 +51,8 @@ void setup(void) {
     pinMode(rain_A, INPUT);
     Serial.begin(9600);
   }
-  
 }
+
 
 void BeginESP8266(){
   esp8266.begin(9600);
@@ -75,8 +86,6 @@ void GetClock() {
   Serial.print(':');
   Serial.print(now.second(), DEC);
   Serial.println();
-
- 
 } 
 
 void ReadDHT(){
@@ -119,6 +128,7 @@ void GetRAIN(){
 
 /* TODO change to just using unifont  */
 void Draw() {
+  #if EnableLCD
   u8g2.setFont(u8g2_font_unifont_t_symbols);
 
   if (connected == true){       // might be better to say if connected = false show a number or sign as display freezes if connection isnt true
@@ -162,18 +172,19 @@ void Draw() {
     u8g2.drawStr(100,20, rain_str);
   }
 
-  if (EnableBMP388) {
-    float press_int = (bmp.pressure / 100.0) ; // Cant Get proper pressure reading on screen
-    dtostrf(press_int, 5, 1, press_str);
-    u8g2.drawStr(110,40, "hP");
-    u8g2.drawStr(60,40, press_str);
-      
-    float temp388_int = (bmp.temperature) ; // Cant Get proper pressure reading on screen
-    dtostrf(temp388_int, 3, 1, temp388_str);
-    u8g2.drawStr(0, 20, temp388_str);  // write Temp to the internal memory. Check if bmp is not enabled before displaying dht temp.
-    u8g2.drawUTF8(35,20,"C");
-  }
-    
+  #if EnableBMP388
+  float press_int = (bmp.pressure / 100.0) ; // Cant Get proper pressure reading on screen
+  dtostrf(press_int, 5, 1, press_str);
+  u8g2.drawStr(110,40, "hP");
+  u8g2.drawStr(60,40, press_str);
+
+  float temp388_int = (bmp.temperature) ; // Cant Get proper pressure reading on screen
+  dtostrf(temp388_int, 3, 1, temp388_str);
+  u8g2.drawStr(0, 20, temp388_str);  // write Temp to the internal memory. Check if bmp is not enabled before displaying dht temp.
+  u8g2.drawUTF8(35,20,"C");
+  #endif
+
+  #endif
 } 
   
 /* else {
@@ -185,10 +196,12 @@ void Draw() {
 //}
 
 void Display() {
+  #if EnableLCD
   u8g2.firstPage();
   do {
     Draw();
   } while ( u8g2.nextPage() );
+  #endif
 }
 
 /* Send sensor information to ThingSpeak */
@@ -228,9 +241,9 @@ void loop(void) {
     GetHumidity();
   }
 
-  if (EnableBMP388) {
-    GetBmpData();
-  } 
+  #if EnableBMP388
+  GetBmpData();
+  #endif
 
   if (EnableLDR) { GetLDR(); }
 
