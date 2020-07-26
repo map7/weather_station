@@ -27,9 +27,7 @@ void setup(void) {
 #endif
   Serial.begin(9600);
 
-  if (EnableRTC){
-    /* RTC */
-    Wire.begin();
+  if (EnableRTC){ /* RTC */
     //RTC.adjust(DateTime(F(__DATE__), F(__TIME__))); // sets clock based on yr PC time
     RTC.begin();
   }
