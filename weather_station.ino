@@ -152,7 +152,7 @@ void Draw() {
   if (EnableRTC) {
     /* Time */
     DateTime now = RTC.now();
-    char buffer[10];
+    char buffer[8];
     sprintf(buffer, "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
     u8g2.setCursor(0,60);
     u8g2.print(buffer);
