@@ -39,10 +39,7 @@ void sendCommand(String command, byte maxTime, char readReplay[]) {
     Serial.println("Ok");
     countTrueCommand++;
     countTimeCommand = 0;
-  }
-  
-  if(found == false)
-  {
+  }else{
     Serial.println("F");
     countTrueCommand = 0;
     countTimeCommand = 0;
