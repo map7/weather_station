@@ -22,10 +22,11 @@
 #include "rain_setup.h"
 
 void setup(void) {
+  Serial.begin(9600);
+
 #if EnableLCD
   u8g2.begin();
 #endif
-  Serial.begin(9600);
 
   if (EnableRTC){ /* RTC */
     //RTC.adjust(DateTime(F(__DATE__), F(__TIME__))); // sets clock based on yr PC time
@@ -47,7 +48,6 @@ void setup(void) {
   if (EnableRAIN){
     pinMode(RAIN_D_PIN, INPUT);
     pinMode(RAIN_A_PIN, INPUT);
-    Serial.begin(9600);
   }
 }
 
