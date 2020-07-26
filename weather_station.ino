@@ -82,8 +82,7 @@ void GetClock() {
   Serial.print(':');
   Serial.print(now.minute(), DEC);
   Serial.print(':');
-  Serial.print(now.second(), DEC);
-  Serial.println();
+  Serial.println(now.second(), DEC);
 } 
 
 void ReadDHT(){
