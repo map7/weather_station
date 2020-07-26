@@ -22,9 +22,9 @@
 #include "rain_setup.h"
 
 void setup(void) {
-  #if EnableLCD
+#if EnableLCD
   u8g2.begin();
-  #endif
+#endif
   Serial.begin(9600);
 
   if (EnableRTC){
@@ -41,9 +41,9 @@ void setup(void) {
   }
   
   /* BMP388 */
-  #if EnableBMP388
+#if EnableBMP388
   BeginBMP388();      // 388 Set up
-  #endif
+#endif
 
   /* Rain Sensor */
   if (EnableRAIN){
@@ -128,7 +128,7 @@ void GetRAIN(){
 
 /* TODO change to just using unifont  */
 void Draw() {
-  #if EnableLCD
+#if EnableLCD
   u8g2.setFont(u8g2_font_unifont_t_symbols);
 
   if (connected == true){       // might be better to say if connected = false show a number or sign as display freezes if connection isnt true
@@ -172,7 +172,7 @@ void Draw() {
     u8g2.drawStr(100,20, rain_str);
   }
 
-  #if EnableBMP388
+#if EnableBMP388
   float press_int = (bmp.pressure / 100.0) ; // Cant Get proper pressure reading on screen
   dtostrf(press_int, 5, 1, press_str);
   u8g2.drawStr(110,40, "hP");
@@ -182,9 +182,9 @@ void Draw() {
   dtostrf(temp388_int, 3, 1, temp388_str);
   u8g2.drawStr(0, 20, temp388_str);  // write Temp to the internal memory. Check if bmp is not enabled before displaying dht temp.
   u8g2.drawUTF8(35,20,"C");
-  #endif
+#endif
 
-  #endif
+#endif
 } 
   
 /* else {
@@ -196,12 +196,12 @@ void Draw() {
 //}
 
 void Display() {
-  #if EnableLCD
+#if EnableLCD
   u8g2.firstPage();
   do {
     Draw();
   } while ( u8g2.nextPage() );
-  #endif
+#endif
 }
 
 /* Send sensor information to ThingSpeak */
@@ -238,9 +238,9 @@ void loop(void) {
     GetHumidity();
   }
 
-  #if EnableBMP388
+#if EnableBMP388
   GetBmpData();
-  #endif
+#endif
 
   if (EnableLDR) { GetLDR(); }
 
