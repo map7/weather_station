@@ -123,6 +123,21 @@ void GetRAIN(){
   Serial.println(rain_val_A); 
 }
 
+char *time_to_char(){
+  DateTime now = RTC.now();
+  static char timestr[9];
+  timestr[0] = '0' + now.hour() / 10;
+  timestr[1] = '0' + now.hour() % 10;
+  timestr[2] = ':';
+  timestr[3] = '0' + now.minute() / 10;
+  timestr[4] = '0' + now.minute() % 10;
+  timestr[5] = ':';
+  timestr[6] = '0' + now.second() / 10;
+  timestr[7] = '0' + now.second() % 10;
+  timestr[8] = '\0';
+  return timestr;
+}
+
 /* TODO change to just using unifont  */
 void Draw() {
 #if EnableLCD
@@ -148,23 +163,9 @@ void Draw() {
     }
   }
 
+  /* Time */
   if (EnableRTC) {
-    /* Time */
-    DateTime now = RTC.now();
-    char buffer[8];
-
-    char timestr[9];
-    timestr[0] = '0' + now.hour() / 10;
-    timestr[1] = '0' + now.hour() % 10;
-    timestr[2] = ':';
-    timestr[3] = '0' + now.minute() / 10;
-    timestr[4] = '0' + now.minute() % 10;
-    timestr[5] = ':';
-    timestr[6] = '0' + now.second() / 10;
-    timestr[7] = '0' + now.second() % 10;
-    timestr[8] = '\0';
-    
-    u8g2.drawStr(0,60, timestr);
+    u8g2.drawStr(0,60, time_to_char());
   }
 
   if (EnableLDR) {
