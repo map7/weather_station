@@ -152,9 +152,19 @@ void Draw() {
     /* Time */
     DateTime now = RTC.now();
     char buffer[8];
-    sprintf(buffer, "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
-    u8g2.setCursor(0,60);
-    u8g2.print(buffer);
+
+    char timestr[9];
+    timestr[0] = '0' + now.hour() / 10;
+    timestr[1] = '0' + now.hour() % 10;
+    timestr[2] = ':';
+    timestr[3] = '0' + now.minute() / 10;
+    timestr[4] = '0' + now.minute() % 10;
+    timestr[5] = ':';
+    timestr[6] = '0' + now.second() / 10;
+    timestr[7] = '0' + now.second() % 10;
+    timestr[8] = '\0';
+    
+    u8g2.drawStr(0,60, timestr);
   }
 
   if (EnableLDR) {
