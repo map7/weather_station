@@ -21,4 +21,11 @@
    : #define RTC false
 
    Hint: Create options.h and copy the contents of options.h.sample
-   
+
+
+** Libraries used
+
+These libraries have to be installed
+
+Adafruit_BMP3XX
+u8g2
