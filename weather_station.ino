@@ -169,9 +169,9 @@ void Draw() {
   }
 
   if (EnableLDR) {
-    u8g2.drawStr(40,20, "L ");
+    u8g2.drawStr(50,20, "L ");
     dtostrf(ldr_int, 2, 0, ldr_str);
-    u8g2.drawStr(50,20, ldr_str);
+    u8g2.drawStr(60,20, ldr_str);
   }
 
   if (EnableRAIN) {
@@ -226,7 +226,7 @@ void SendData() {
   /* Send the data */
   sendCommand("AT+CIPSTART=0,\"TCP\",\""+ HOST +"\","+ PORT,15,"OK");
   sendCommand("AT+CIPSEND=0," +String(getData.length()+4),4,">");
-  esp8266.println(getData);delay(1000);countTrueCommand++;
+  esp8266.println(getData);delay(5000);countTrueCommand++;
   sendCommand("AT+CIPCLOSE=0",5,"OK");
 }
 
